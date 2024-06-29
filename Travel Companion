@@ -1,0 +1,241 @@
+npx create-react-app travel-companion
+cd travel-companion
+#Styling
+npm install --save styled-components
+#App component
+import React, { useState } from 'react';
+import Header from './components/Header';
+import DestinationList from './components/DestinationList';
+import AddDestination from './components/AddDestination';
+import TravelPlan from './components/TravelPlan';
+import AddTravelPlan from './components/AddTravelPlan';
+
+function App() {
+  const [destinations, setDestinations] = useState([]);
+  const [travelPlans, setTravelPlans] = useState([]);
+
+  const addDestination = (destination) => {
+    setDestinations([...destinations, destination]);
+  };
+
+  const addTravelPlan = (plan) => {
+    setTravelPlans([...travelPlans, plan]);
+  };
+
+  return (
+    <div className="App">
+      <Header />
+      <AddDestination addDestination={addDestination} />
+      <DestinationList destinations={destinations} />
+      <AddTravelPlan addTravelPlan={addTravelPlan} />
+      <TravelPlan travelPlans={travelPlans} />
+    </div>
+  );
+}
+
+export default App;
+
+#Header Component
+import React from 'react';
+
+function Header() {
+  return (
+    <header>
+      <h1>Travel Companion</h1>
+    </header>
+  );
+}
+
+export default Header;
+
+#DestinationList Component
+import React from 'react';
+import DestinationItem from './DestinationItem';
+
+function DestinationList({ destinations }) {
+  return (
+    <ul>
+      {destinations.map((destination, index) => (
+        <DestinationItem key={index} destination={destination} />
+      ))}
+    </ul>
+  );
+}
+
+export default DestinationList;
+
+#DestinationItem Component
+
+import React from 'react';
+
+function DestinationItem({ destination }) {
+  return (
+    <li>
+      {destination.name} - {destination.description}
+    </li>
+  );
+}
+
+export default DestinationItem;
+
+#AddDestination Component
+import React, { useState } from 'react';
+
+function AddDestination({ addDestination }) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!name || !description) return;
+    addDestination({ name, description });
+    setName('');
+    setDescription('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Destination Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+      <button type="submit">Add Destination</button>
+    </form>
+  );
+}
+
+export default AddDestination;
+
+#TravelPlan Component
+import React from 'react';
+import TravelPlanItem from './TravelPlanItem';
+
+function TravelPlan({ travelPlans }) {
+  return (
+    <ul>
+      {travelPlans.map((plan, index) => (
+        <TravelPlanItem key={index} plan={plan} />
+      ))}
+    </ul>
+  );
+}
+
+export default TravelPlan;
+
+import React from 'react';
+
+function TravelPlanItem({ plan }) {
+  return (
+    <li>
+      {plan.destination} - {plan.date}
+    </li>
+  );
+}
+
+export default TravelPlanItem;
+
+
+##AddTravelPlan Component
+import React, { useState } from 'react';
+
+function AddTravelPlan({ addTravelPlan }) {
+  const [destination, setDestination] = useState('');
+  const [date, setDate] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!destination || !date) return;
+    addTravelPlan({ destination, date });
+    setDestination('');
+    setDate('');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        placeholder="Destination"
+        value={destination}
+        onChange={(e) => setDestination(e.target.value)}
+      />
+      <input
+        type="date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
+      <button type="submit">Add Travel Plan</button>
+    </form>
+  );
+}
+
+export default AddTravelPlan;
+
+##Styling the app
+
+.App {
+  text-align: center;
+  margin: 2em;
+}
+
+header {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  background: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+input {
+  margin: 0.5em 0;
+  padding: 0.5em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
+##Run the app
+npm start
+
+
+
+
+
+
+
+
+
